@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Phim extends StatelessWidget {
+  final int chiSoFlex;
   final Color mauNut;
   final Color? mauText;
   final CircleBorder? hinhDangNut;
@@ -13,6 +14,7 @@ class Phim extends StatelessWidget {
     this.hinhDangNut,
     required this.text,
     required this.onPressed,
+    required this.chiSoFlex,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -34,15 +36,7 @@ class Phim extends StatelessWidget {
           onPressed: () => onPressed(text),
         ),
       ),
-      flex: chiSoFlex(text),
+      flex: chiSoFlex,
     );
-  }
-
-  int chiSoFlex(String text) {
-    if (text == '0') {
-      return 2;
-    } else {
-      return 1;
-    }
   }
 }

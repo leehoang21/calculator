@@ -50,11 +50,11 @@ class _AppCalculatorState extends State<AppCalculator> {
                 ),
               ),
             ),
-            hangPhim('C', '\$', '%', '/'),
-            hangPhim('7', '8', '9', '-'),
-            hangPhim('4', '5', '6', '+'),
-            hangPhim('1', '2', '3', '*'),
-            hangPhim('0', '0', '.', '='),
+            hangPhim4('C', '\$', '%', '/'),
+            hangPhim4('7', '8', '9', '-'),
+            hangPhim4('4', '5', '6', '+'),
+            hangPhim4('1', '2', '3', '*'),
+            hangPhim3('0', '.', '='),
           ],
         ),
       ),
@@ -94,11 +94,21 @@ class _AppCalculatorState extends State<AppCalculator> {
     );
   }
 
-  Row hangPhim(String text1, String text2, String text3, String text4) {
+  Row hangPhim4(String text1, String text2, String text3, String text4) {
     return Row(
       children: [
         phimVuong(text1),
-        if (text1 != '0') phimVuong(text2),
+        phimVuong(text2),
+        phimVuong(text3),
+        phimTron(text4),
+      ],
+    );
+  }
+
+  Row hangPhim3(String text1, String text3, String text4) {
+    return Row(
+      children: [
+        phimVuong(text1, 2),
         phimVuong(text3),
         phimTron(text4),
       ],
@@ -112,14 +122,16 @@ class _AppCalculatorState extends State<AppCalculator> {
       hinhDangNut: const CircleBorder(),
       text: text4,
       onPressed: onPressed,
+      chiSoFlex: 1,
     );
   }
 
-  Phim phimVuong(String text) {
+  Phim phimVuong(String text, [int chiSoFlex = 1]) {
     return Phim(
       mauNut: Mau.mauDenXam,
       text: text,
       onPressed: onPressed,
+      chiSoFlex: chiSoFlex,
     );
   }
 
@@ -177,7 +189,6 @@ class _AppCalculatorState extends State<AppCalculator> {
       ketQua = thucHIenTinhToan(toanTu, ketQua, tmp);
     } catch (e) {
       ketQua = 'lỗi rồi';
-      print(ketQua);
     }
     return ketQua;
   }
