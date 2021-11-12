@@ -167,7 +167,12 @@ class _AppCalculatorState extends State<AppCalculator> {
         var kiTuTrongChuoiLa1So = '0'.compareTo(_textPhepTinh[i]) <= 0 &&
             '9'.compareTo(_textPhepTinh[i]) >= 0;
         var kiTuTrongChuoiLaDauCham = '.'.compareTo(_textPhepTinh[i]) == 0;
-        if (kiTuTrongChuoiLa1So || kiTuTrongChuoiLaDauCham) {
+        var kiTuDauLaDauTruHoacCong = ('-'.compareTo(_textPhepTinh[i]) == 0 ||
+                '+'.compareTo(_textPhepTinh[i]) == 0) &&
+            i == 0;
+        if (kiTuTrongChuoiLa1So ||
+            kiTuTrongChuoiLaDauCham ||
+            kiTuDauLaDauTruHoacCong) {
           if (toanTu == '') {
             ketQua += _textPhepTinh[i];
           } else {
