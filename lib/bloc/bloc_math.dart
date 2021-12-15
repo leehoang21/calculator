@@ -4,20 +4,27 @@ import 'package:math_expressions/math_expressions.dart';
 
 class BlocMath extends Bloc<MathEvent, MathState> {
   String _result = '';
-
+  bool flagRemove = false;
   String get result => _result;
 
   BlocMath() : super(Clear()) {
     on<OrtherButtonsTapped>((event, emit) {
       if (_result == 'lỗi rồi') {
+        if (flagRemove) {
+          flagRemove = false;
+        } else {
+          emit(Clear());
+        }
         _result = '';
-        emit(Clear());
       } else if (_result != '') {
-        if (!isOperator(event)) {
+        if (flagRemove) {
+          flagRemove = false;
+        } else if (!isOperator(event)) {
           emit(AddInput(userInput: _result));
         } else {
           emit(Clear());
         }
+
         _result = '';
       }
       emit(
@@ -32,16 +39,17 @@ class BlocMath extends Bloc<MathEvent, MathState> {
       },
     );
 
-    on<DeleteButtonTapped>(
-      (event, emit) => emit(
+    on<DeleteButtonTapped>((event, emit) {
+      flagRemove = true;
+      emit(
         RemoveLast(
           userInput: state.userInput.substring(
             0,
             state.userInput.length - 1,
           ),
         ),
-      ),
-    );
+      );
+    });
 
     on<EqualButtonTapped>((event, emit) {
       try {
@@ -69,7 +77,7 @@ class BlocMath extends Bloc<MathEvent, MathState> {
 
   bool isNumber() {
     return state.userInput[1].compareTo('9') <= 0 &&
-          state.userInput[1].compareTo('0') >= 0;
+        state.userInput[1].compareTo('0') >= 0;
   }
 
   bool isOperator(OrtherButtonsTapped event) {
