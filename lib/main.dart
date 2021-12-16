@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             flex: 3,
           ),
           Expanded(
-            flex: 8,
+            flex: 7,
             child: ButtonUI(),
           ),
         ],

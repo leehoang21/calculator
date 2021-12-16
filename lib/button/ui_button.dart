@@ -38,7 +38,10 @@ class ButtonUI extends StatelessWidget {
               reverse: true,
               itemCount: charButtons.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 10, crossAxisSpacing: 10, crossAxisCount: 4),
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                crossAxisCount: 4,
+              ),
               itemBuilder: (context, index) {
                 var row4 = index % 4 == 3;
                 if (row4) {
@@ -49,35 +52,21 @@ class ButtonUI extends StatelessWidget {
               },
             ),
           ),
-          const SizedBox(height: 10),
           Expanded(
             flex: 1,
-            child: Row(
+            child: GridView.count(
+              crossAxisSpacing: 10,
+              crossAxisCount: 2,
+              childAspectRatio: 2,
               children: [
-                Expanded(
-                  child: GridView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 400,
-                      childAspectRatio: 2,
-                    ),
-                    children: [
-                      calcButton('0'),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: GridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisSpacing: 10,
-                    crossAxisCount: 2,
-                    children: [
-                      calcButton('.'),
-                      circleCalcButton('='),
-                    ],
-                  ),
+                calcButton('0'),
+                GridView.count(
+                  crossAxisSpacing: 10,
+                  crossAxisCount: 2,
+                  children: [
+                    calcButton('.'),
+                    circleCalcButton('='),
+                  ],
                 ),
               ],
             ),
