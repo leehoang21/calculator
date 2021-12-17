@@ -3,6 +3,7 @@ import 'package:calculator_flutter/button/calc_button.dart';
 import 'package:flutter/material.dart';
 
 class ButtonUI extends StatelessWidget {
+  int i = 0;
   ButtonUI({Key? key}) : super(key: key);
   final List<String> charButtons = [
     '1',
@@ -26,52 +27,16 @@ class ButtonUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 10,
         right: 10,
+        left: 10,
       ),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 4,
-            child: GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              reverse: true,
-              itemCount: charButtons.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                crossAxisCount: 4,
-              ),
-              itemBuilder: (context, index) {
-                var row4 = index % 4 == 3;
-                if (row4) {
-                  return circleCalcButton(charButtons[index]);
-                } else {
-                  return calcButton(charButtons[index]);
-                }
-              },
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: GridView.count(
-              crossAxisSpacing: 10,
-              crossAxisCount: 2,
-              childAspectRatio: 2,
-              children: [
-                calcButton('0'),
-                GridView.count(
-                  crossAxisSpacing: 10,
-                  crossAxisCount: 2,
-                  children: [
-                    calcButton('.'),
-                    circleCalcButton('='),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
+      child: GridView.count(
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        childAspectRatio: 2,
+        reverse: true,
+        crossAxisCount: 2,
+        children: buttons(),
       ),
     );
   }
@@ -89,5 +54,42 @@ class ButtonUI extends StatelessWidget {
         shape: const CircleBorder(),
         buttonColor: AppColor.yellowOrangeColor,
         char: char);
+  }
+
+  List<Widget> buttons() {
+    List<Widget> buttons = [];
+    buttons.add(calcButton('0'));
+    buttons.add(
+      GridView.count(
+        crossAxisCount: 2,
+        children: [
+          calcButton('.'),
+          circleCalcButton('='),
+        ],
+      ),
+    );
+    for (var i = 0; i < charButtons.length; i += 4) {
+      buttons.add(
+        GridView.count(
+          crossAxisSpacing: 10,
+          crossAxisCount: 2,
+          children: [
+            calcButton(charButtons[i]),
+            calcButton(charButtons[i + 1]),
+          ],
+        ),
+      );
+      buttons.add(
+        GridView.count(
+          crossAxisSpacing: 10,
+          crossAxisCount: 2,
+          children: [
+            calcButton(charButtons[i + 2]),
+            circleCalcButton(charButtons[i + 3]),
+          ],
+        ),
+      );
+    }
+    return buttons;
   }
 }
