@@ -36,9 +36,6 @@ class MyApp extends StatelessWidget {
             flex: 7,
             child: ButtonUI(),
           ),
-          const SizedBox(
-            height: 10,
-          )
         ],
       ),
     );

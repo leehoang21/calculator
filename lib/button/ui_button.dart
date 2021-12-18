@@ -6,6 +6,8 @@ class ButtonUI extends StatelessWidget {
   int i = 0;
   ButtonUI({Key? key}) : super(key: key);
   final List<String> charButtons = [
+    '.',
+    '=',
     '1',
     '2',
     '3',
@@ -26,18 +28,26 @@ class ButtonUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        right: 10,
-        left: 10,
-      ),
-      child: GridView.count(
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 2,
-        reverse: true,
-        crossAxisCount: 2,
-        children: buttons(),
-      ),
+        padding: const EdgeInsets.only(
+          right: 10,
+          left: 10,
+          bottom: 10,
+        ),
+        child: GridView.count(
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 2,
+          reverse: true,
+          crossAxisCount: 2,
+          children: buttons(),
+        ));
+  }
+
+  GridView gridButtons(List<Widget> buttons) {
+    return GridView.count(
+      crossAxisSpacing: 10,
+      crossAxisCount: 2,
+      children: buttons,
     );
   }
 
@@ -59,35 +69,14 @@ class ButtonUI extends StatelessWidget {
   List<Widget> buttons() {
     List<Widget> buttons = [];
     buttons.add(calcButton('0'));
-    buttons.add(
-      GridView.count(
-        crossAxisCount: 2,
-        children: [
-          calcButton('.'),
-          circleCalcButton('='),
-        ],
-      ),
-    );
-    for (var i = 0; i < charButtons.length; i += 4) {
+    for (var i = 0; i < charButtons.length; i += 2) {
       buttons.add(
-        GridView.count(
-          crossAxisSpacing: 10,
-          crossAxisCount: 2,
-          children: [
-            calcButton(charButtons[i]),
-            calcButton(charButtons[i + 1]),
-          ],
-        ),
-      );
-      buttons.add(
-        GridView.count(
-          crossAxisSpacing: 10,
-          crossAxisCount: 2,
-          children: [
-            calcButton(charButtons[i + 2]),
-            circleCalcButton(charButtons[i + 3]),
-          ],
-        ),
+        gridButtons([
+          calcButton(charButtons[i]),
+          i % 4 == 0
+              ? circleCalcButton(charButtons[i + 1])
+              : calcButton(charButtons[i + 1]),
+        ]),
       );
     }
     return buttons;
