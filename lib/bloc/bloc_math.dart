@@ -73,8 +73,8 @@ class BlocMath extends Bloc<MathEvent, MathState> {
   }
 
   bool isOperator(OrtherButtonsTapped event) {
-    return !(event.charUserInput.compareTo('9') <= 0 &&
+    return !((event.charUserInput.compareTo('9') <= 0 &&
             event.charUserInput.compareTo('0') >= 0) ||
-        event.charUserInput.compareTo('.') == 0;
+        event.charUserInput.compareTo('.') == 0);
   }
 }
