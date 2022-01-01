@@ -3,22 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class BlocMath extends Bloc<MathEvent, MathState> {
-  String _result = '';
-
-  String get result => _result;
-
   BlocMath() : super(Clear()) {
     on<OrtherButtonsTapped>((event, emit) {
-      if (_result == 'lỗi rồi') {
-        _result = '';
+      if (state.result == 'lỗi rồi') {
         emit(Clear());
-      } else if (_result != '') {
+      } else if (state.result != '') {
         if (isOperator(event)) {
-          emit(AddInput(userInput: _result));
+          emit(AddInput(userInput: state.result));
         } else {
           emit(Clear());
         }
-        _result = '';
       }
       emit(
         AddInput(userInput: state.userInput + event.charUserInput),
@@ -27,7 +21,6 @@ class BlocMath extends Bloc<MathEvent, MathState> {
 
     on<ClearButtonTapped>(
       (event, emit) {
-        _result = '';
         emit(Clear());
       },
     );
@@ -35,23 +28,18 @@ class BlocMath extends Bloc<MathEvent, MathState> {
     on<DeleteButtonTapped>(
       (event, emit) => emit(
         RemoveLast(
-          userInput: state.userInput.substring(
-            0,
-            state.userInput.length - 1,
-          ),
+          userInput: state.userInput.substring(0, state.userInput.length - 1),
         ),
       ),
     );
 
     on<EqualButtonTapped>((event, emit) {
+      String _result = '';
       try {
         if (state.userInput[0] == '+' && isNumber()) {
           emit(
             AddInput(
-              userInput: state.userInput.substring(
-                1,
-                state.userInput.length,
-              ),
+              userInput: state.userInput.substring(1, state.userInput.length),
             ),
           );
         }
@@ -63,7 +51,7 @@ class BlocMath extends Bloc<MathEvent, MathState> {
       } catch (_) {
         _result = 'lỗi rồi';
       }
-      emit(Result(userInput: state.userInput));
+      emit(Result(userInput: state.userInput, result: _result));
     });
   }
 
